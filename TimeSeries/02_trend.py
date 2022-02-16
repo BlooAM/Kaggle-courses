@@ -8,6 +8,7 @@ import numpy as np
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
 from statsmodels.tsa.deterministic import DeterministicProcess
+from pyearth import Earth
 
 
 plot_params = {
@@ -104,3 +105,16 @@ ax = y.plot(**plot_params, alpha=0.5, title="Average Sales", ylabel="items sold"
 ax = y_pred.plot(ax=ax, linewidth=3, label="Trend", color='C0')
 ax = y_fore.plot(ax=ax, linewidth=3, label="Trend Forecast", color='C3')
 ax.legend()
+
+#Splines model as an alternative to trend model
+y = average_sales.copy() #Target and features are the same as before
+dp = DeterministicProcess(index=y.index, order=1)
+X = dp.in_sample()
+model = Earth() #Fit a MARS(Multivariate Adaptive Regression Splines) model with `Earth`
+model.fit(X, y)
+y_pred = pd.Series(model.predict(X), index=X.index)
+ax = y.plot(**plot_params, title="Average Sales", ylabel="items sold")
+ax = y_pred.plot(ax=ax, linewidth=3, label="Trend")
+#Detrending
+y_detrended = y - y_pred   #remove the trend from store_sales
+y_detrended.plot(**plot_params, title="Detrended Average Sales");
