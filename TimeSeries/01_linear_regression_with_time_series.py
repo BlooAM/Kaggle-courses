@@ -8,6 +8,7 @@ import numpy as np
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
 
+
 plot_params = {
     'color': '0.75',
     'style': '.-',
