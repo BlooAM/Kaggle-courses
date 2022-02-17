@@ -117,4 +117,4 @@ ax = y.plot(**plot_params, title="Average Sales", ylabel="items sold")
 ax = y_pred.plot(ax=ax, linewidth=3, label="Trend")
 #Detrending
 y_detrended = y - y_pred   #remove the trend from store_sales
-y_detrended.plot(**plot_params, title="Detrended Average Sales");
+y_detrended.plot(**plot_params, title="Detrended Average Sales")
